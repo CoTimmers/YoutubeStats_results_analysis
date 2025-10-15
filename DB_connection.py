@@ -3,15 +3,34 @@ import os
 import sqlite3 
 import pandas as pd
 
+from config import choose_expe
+
 
 class DB_connection():
-    def __init__(self):
+    def __init__(self, expe = None):
         project_root = os.path.abspath(os.path.join(os.path.dirname(__file__)))
-        db_path = os.path.join(
-            project_root,
-            "data", "database.db"
-        )
-        self.connection = sqlite3.connect( db_path, timeout=10)
+        if expe == "expe_1":
+            db_path = os.path.join(
+                project_root,
+                "data","expe_1" ,"database.db"
+            )
+        elif expe == "expe_2":
+            db_path = os.path.join(
+                project_root,
+                "data","expe_2" ,"database.db"
+            )
+        elif expe is None:
+            if choose_expe == "expe_1":
+                db_path = os.path.join(
+                    project_root,
+                    "data","expe_1" ,"database.db"
+                )
+            elif choose_expe == "expe_2":
+                db_path = os.path.join(
+                    project_root,
+                    "data","expe_2" ,"database.db"
+            )
+        self.connection = sqlite3.connect(db_path, timeout=10)
     
     def select(self,query):
         return pd.read_sql_query(query, self.connection)
@@ -51,5 +70,9 @@ class DB_connection():
         except sqlite3.Error as e:
             print(f"An error occurred: {e}")
             self.connection.rollback()
+
+    def close(self):
+        self.connection.close()
+
 
             

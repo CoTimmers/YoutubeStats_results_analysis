@@ -149,7 +149,6 @@ def query_llm(prompt, llm_structured) -> BatchClassification:
     return llm_structured.invoke(prompt)
 
 
-#merge_videos_tables()
 
 
 def annotate_by_batch(llm_structured, batch_size: int = 10, include_transcripts: bool = True ):
@@ -195,7 +194,7 @@ if __name__ == "__main__":
         previous_videos_df = videos_df
         if len(videos_df) == 0:
             continue_bool = False
-        
+
 
 
 
